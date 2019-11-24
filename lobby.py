@@ -44,7 +44,6 @@ class Lobby:
 
     def draw(self, canvas,actionMethod):
         y = 100
-        # print(f'{len(self.players)} players')
         for pName in self.players:
             p = self.players.get(pName)
             opt = '=> Demander à jouer'

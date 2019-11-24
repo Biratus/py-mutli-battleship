@@ -13,19 +13,24 @@ class Game:
             print('!TOUCH!')
             return 
         elif self.p1.name==pName: #p1 touch
+            print(f'{pName} touch')
             if not(self.p1.ready): #placing
+                print(f' place {cell}')
                 gridCell['placed'+pName] = not(gridCell.get('placed'+pName))  
             else: gridCell['ready'+pName] = True
         elif self.p2.name==pName: #p2 touch
+            print(f'{pName} touch')
             if not(self.p2.ready): #placing
+                print(f'{pName} place {cell}')
                 gridCell['placed'+pName] = not(gridCell.get('placed'+pName))
             else: gridCell['ready'+pName] = True
+        else: print(f'NO PLAYER ? {self.p1.name} {self.p2.name}')
         self.grid[(cell.get('x'),cell.get('y'))] = gridCell
     
     def getGridState(self,pName):
         for coord in self.grid:
+            self.grid[coord]['state'] = ''
             for state in cell_states:
-                self.grid[coord]['state'] = ''
                 if self.grid[coord].get(state+pName): 
                     self.grid[coord]['state'] = state
         jsonGrid = {}
@@ -39,7 +44,6 @@ class Game:
     def drawGrid(self,grid,canvas,gridSize,cellNb):
         global cell_states
         cellSize = gridSize/cellNb
-        print(f'{grid}')
         for x in range(0,cellNb+1):
             dX = x*cellSize
             canvas.create_line(0,dX,gridSize,dX)
@@ -66,6 +70,9 @@ class Game:
         self.bothReady = self.p1.ready and self.p2.ready
         if self.bothReady:
             self.p1.active = True
+        
+    def getPlayers(self):
+        return [self.p1,self.p2]
 
 
 class Player:

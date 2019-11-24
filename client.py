@@ -45,7 +45,7 @@ def onclick(event):
 	# 		else: canvas.create_rectangle(cell[0]*cellSize,cell[1]*cellSize,(cell[0]+1)*cellSize,(cell[1]+1)*cellSize,fill='#ff00be')
 	# canvas.after(50,drawCanvasBattle)
 
-def readyPlayer():
+def readyPlayer(event):
 	req = requests.post(api_url+'/ready',headers=headers())
 	if req.status_code == 200:
 		battle.readyClient(getPlayers)
@@ -59,10 +59,11 @@ def drawCanvasBattle():
 	canvas.delete("all")
 	canvas.create_text(gridSize+20,20,text='En combat avec '+battle.p2.name,anchor='w')
 	grid = getGrid()
+	print(f'{grid}')
 	if not(battle.bothReady):
 		ready = canvas.create_text(gridSize+20,50,text='=> Prêt! ',anchor='w')
 		canvas.tag_bind(ready,'<Button-1>',readyPlayer)
-	else if grid.get('turn'):
+	elif grid.get('turn'):
 		canvas.create_text(gridSize+20,50,text='=> A '+grid.get('turn')+' de jouer !',anchor='w')
 	battle.drawGrid(grid['grid'],canvas,gridSize,cellNb)
 def getPlayers():
